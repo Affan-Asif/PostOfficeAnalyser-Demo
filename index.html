@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Office Analyser</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #10141f;
+    color: #e8ecf5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  h1 { font-size: 2rem; margin-bottom: 8px; }
+  h1 span { color: #f87171; }
+  p.sub { color: #93a0b8; margin-bottom: 30px; text-align: center; max-width: 700px; }
+  .videos {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1400px;
+  }
+  .card {
+    background: #1a2130;
+    border-radius: 16px;
+    padding: 20px;
+    flex: 1 1 420px;
+    max-width: 660px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  .label {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .label.input { background: #2c3547; color: #c3cee0; }
+  .label.output { background: #7f1d1d; color: #fecaca; }
+  video { width: 100%; border-radius: 10px; display: block; background: #000; }
+  button {
+    margin-top: 26px;
+    padding: 14px 60px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    background: #f87171;
+    color: #10141f;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button:hover { background: #fca5a5; }
+  button:disabled { background: #45414f; color: #93a0b8; cursor: wait; }
+  #outputCard { display: none; }
+  .features { margin-top: 18px; display: none; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 900px; }
+  .features span {
+    background: #2c3547; padding: 5px 14px; border-radius: 999px; font-size: 0.8rem; color: #c3cee0;
+  }
+</style>
+</head>
+<body>
+  <h1>Post Office <span>Analyser</span></h1>
+  <p class="sub">AI-powered post office monitoring using a custom-trained YOLO model &mdash;
+  detects counters and customers, tracks queue activity, counter busy/idle status,
+  and average customer service time from CCTV footage.</p>
+
+  <div class="videos">
+    <div class="card">
+      <span class="label input">INPUT &mdash; Raw CCTV footage</span>
+      <video id="inputVideo" src="input.mp4" controls muted playsinline></video>
+    </div>
+    <div class="card" id="outputCard">
+      <span class="label output">OUTPUT &mdash; Analysed footage</span>
+      <video id="outputVideo" src="output.mp4" controls muted playsinline></video>
+    </div>
+  </div>
+
+  <button id="analyseBtn">Analyse Post Office &#9654;</button>
+
+  <div class="features" id="features">
+    <span>Counter detection</span><span>Customer tracking</span><span>Busy / idle status</span>
+    <span>Customers served</span><span>Avg service time</span><span>Activity level</span>
+  </div>
+
+<script>
+  const btn = document.getElementById('analyseBtn');
+
+  btn.addEventListener('click', () => {
+    btn.disabled = true;
+    btn.textContent = 'Analysing with custom YOLO...';
+    setTimeout(() => {
+      document.getElementById('outputCard').style.display = 'block';
+      document.getElementById('features').style.display = 'flex';
+      const inp = document.getElementById('inputVideo');
+      const out = document.getElementById('outputVideo');
+      inp.currentTime = 0;
+      out.currentTime = 0;
+      inp.play();
+      out.play();
+      btn.textContent = 'Analysis Complete';
+    }, 2500);
+  });
+</script>
+</body>
+</html>
